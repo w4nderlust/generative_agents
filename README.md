@@ -8,6 +8,18 @@
 
 This repository accompanies our research paper titled "[Generative Agents: Interactive Simulacra of Human Behavior](https://arxiv.org/abs/2304.03442)." It contains our core simulation module for  generative agents—computational agents that simulate believable human behaviors—and their game environment. Below, we document the steps for setting up the simulation environment on your local machine and for replaying the simulation as a demo animation.
 
+### Additional Details On How To Run This
+
+* Start the backend server (python manage.py runserver)
+* Start the reverie script (python reverie.py)
+* Go to http://localhost:8000/
+* Enter the name of the forked simulation (base_the_ville_isabella_maria_klaus)
+* Open a new tab and go to http://localhost:8000/simulator_home
+* **Keep the tab on the foreground **
+* Run the simulation by typing "run 100" (or any number of steps you want to run)
+* **Keep the tab on the foreground while the steps are running**
+
+
 ## <img src="https://joonsungpark.s3.amazonaws.com:443/static/assets/characters/profile/Isabella_Rodriguez.png" alt="Generative Isabella">   Setting Up the Environment 
 To set up your environment, you will need to generate a `utils.py` file that contains your OpenAI API key and download the necessary packages.
 

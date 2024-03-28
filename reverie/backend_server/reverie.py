@@ -309,6 +309,7 @@ class ReverieServer:
             # new environment file that matches our step count. That's when we run
             # the content of this for loop. Otherwise, we just wait.
             curr_env_file = f"{sim_folder}/environment/{self.step}.json"
+            print("Checking for", curr_env_file)
             if check_if_file_exists(curr_env_file):
                 # If we have an environment file, it means we have a new perception
                 # input to our personas. So we first retrieve it.
@@ -393,26 +394,28 @@ class ReverieServer:
                     # {"persona": {"Maria Lopez": {"movement": [58, 9]}},
                     #  "persona": {"Klaus Mueller": {"movement": [38, 12]}},
                     #  "meta": {curr_time: <datetime>}}
-                    movement_folder = f"{sim_folder}/movement"
-                    if not os.path.isdir(movement_folder):
-                        os.mkdir(movement_folder)
-                    curr_move_file = f"{movement_folder}/{self.step}.json"
+                    curr_move_path = f"{sim_folder}/movement"
+                    # If the folder doesn't exist, we create it.
+                    if not os.path.exists(curr_move_path):
+                        os.makedirs(curr_move_path)
+                    curr_move_file = f"{sim_folder}/movement/{self.step}.json"
                     with open(curr_move_file, "w") as outfile:
                         outfile.write(json.dumps(movements, indent=2))
 
                     # Piero's hack to make this work without the frontend
-                    env_folder = f"{sim_folder}/environment"
-                    curr_env_file = f"{movement_folder}/{self.step + 1}.json"
-                    persona_positions = {}
-                    for persona_name in movements["persona"]:
-                        val_dict = {}
-                        move_to = movements["persona"][persona_name]["movement"]
-                        val_dict["x"] = move_to[0]
-                        val_dict["y"] = move_to[1]
-                        val_dict["maze"] = self.maze.maze_name
-                        persona_positions[persona_name] = val_dict
-                    with open(curr_env_file, "w") as outfile:
-                        outfile.write(json.dumps(persona_positions, indent=2))
+                    # env_folder = f"{sim_folder}/environment"
+                    # curr_env_file = f"{env_folder}/{self.step + 1}.json"
+                    # print(curr_env_file)
+                    # persona_positions = {}
+                    # for persona_name in movements["persona"]:
+                    #     val_dict = {}
+                    #     move_to = movements["persona"][persona_name]["movement"]
+                    #     val_dict["x"] = move_to[0]
+                    #     val_dict["y"] = move_to[1]
+                    #     val_dict["maze"] = self.maze.maze_name
+                    #     persona_positions[persona_name] = val_dict
+                    # with open(curr_env_file, "w") as outfile:
+                    #     outfile.write(json.dumps(persona_positions, indent=2))
 
                     # After this cycle, the world takes one step forward, and the
                     # current time moves by <sec_per_step> amount.
